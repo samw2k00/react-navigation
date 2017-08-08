@@ -176,6 +176,11 @@ export default function createNavigationContainer<S: *, O>(
       }
       const nav = Component.router.getStateForAction(action, state.nav);
       if (nav && nav !== state.nav) {
+	const prevNav = state.nav
+    	if (prevNav.routes[prevNav.index].routeName == action.routeName) {
+      		// console.log('block double navigation to the same route - routeName=' + action.routeName)
+      		return false
+    	}
         this.setState({ nav }, () =>
           this._onNavigationStateChange(state.nav, nav, action)
         );
